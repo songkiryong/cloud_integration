@@ -23,7 +23,7 @@ iPaaS와 IoT를 활용해 산업 화재 대응 솔루션을 제작합니다.
  ```
  pip install paho-mqtt
  ```
- - MQTT 프로그램  
+ - MQTT Program 1 : motion 감지 센서 데이터를 제외한 모든 데이터를 수신 및 전송    
  ```
  import time
 import sys
@@ -105,32 +105,48 @@ while True:
     print("--------------------------")
     time.sleep(5)
    
+```  
+
+- MQTT Program 2 : motion 감지 데이터를 수신 및 전송  
+```
+HOST = "localhost"
+PORT = 4223
+UID = "RmP" # Change XYZ to the UID of your Motion Detector Bricklet 2.0
+
+from tinkerforge.ip_connection import IPConnection
+from tinkerforge.bricklet_motion_detector_v2 import BrickletMotionDetectorV2
+
+# Callback function for motion detected callback
+def cb_motion_detected():
+    print("Motion Detected")
+    md.set_indicator(255, 255, 255)
+# Callback function for detection cycle ended callback
+def cb_detection_cycle_ended():
+    print("Detection Cycle Ended (next detection possible in ~2 seconds)")
+
+    md.set_indicator(0, 0, 0)
+if __name__ == "__main__":
+    ipcon = IPConnection() # Create IP connection
+    md = BrickletMotionDetectorV2(UID, ipcon) # Create device object
+
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
+
+    # Register motion detected callback to function cb_motion_detected
+    md.register_callback(md.CALLBACK_MOTION_DETECTED, cb_motion_detected)
+
+    # Register detection cycle ended callback to function cb_detection_cycle_ended
+    md.register_callback(md.CALLBACK_DETECTION_CYCLE_ENDED, cb_detection_cycle_ended)
+
+    input("Press key to exit\n") # Use raw_input() in Python 2
+    ipcon.disconnect()
+ 
 ```
 
-# 작동순서  
+### iPaaS & IoT
+- iPaaS : Webmethods.io  
+- IoT : Cumulocity IoT  
 
-1. clone  
-``` 
-https://github.com/songkiryong/2-tier-wordpress_Terraform.git 
-```
 
-2. Terraform  
-``` 
-terraform init  
-terraform apply 
-```
 
-3. Ansible    
-``` 
-ansible-playbook deploy.yaml -b --private-key "~/.ssh/id_rsa" 
-```
-# 삭제  
-1. Terraform  
-```
-terraform destroy
-```
-2. Ansible
-```
-ansible-playbook remove.yaml -b --private-key "~/.ssh/id_rsa"
-```
 
