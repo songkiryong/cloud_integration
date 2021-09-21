@@ -48,8 +48,8 @@ def on_connect(client, userdata, flags, rc):
 ### MQTT Connect
 client = mqttClient.Client("clientId")  # create new instance
 client.on_connect=on_connect #binding on_connect function
-client.username_pw_set("song2109/kiryong48@gmail.com", "qwer1234!")  # set username and password
-client.connect("mqtt.song2109.us.cumulocity.com", 1883)  # connect to broker
+client.username_pw_set("tenant/ID", "PASSWORD")  # set username and password
+client.connect("URL", 1883)  # connect to broker
 
 ### TinkerForge Connect
 ipcon = IPConnection() # Create IP connection
