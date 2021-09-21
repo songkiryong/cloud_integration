@@ -3,7 +3,7 @@ iPaaS와 IoT를 활용해 산업 화재 대응 솔루션을 제작합니다.
 
 # 아키텍처  
 
-![image](https://user-images.githubusercontent.com/73922068/134149300-e0fb4610-53b4-4cee-947a-acab8a9d87c4.png)
+![image](https://user-images.githubusercontent.com/73922068/134149465-ca480df2-ab1e-4570-bb30-3f4ea319496c.png)
 
 -> Terraform을 통해 AWS의 Route53, EC2, RDS, 보안그룹 및 S3를 생성합니다.  
 -> Ansible을 통해 EC2와 RDS에 apache2,php,wordpress,mysql을 설치하고 연결합니다.  
